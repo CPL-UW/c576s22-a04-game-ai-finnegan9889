@@ -242,7 +242,7 @@ public class GMScript : MonoBehaviour
             newPiece[i] = new Vector3Int(rotatedX, rotatedY);
         }
 
-        Array.Copy(newPiece, piece, piece.Length);
+        //Array.Copy(newPiece, piece, piece.Length);
         return newPiece;
     }
 
@@ -356,10 +356,21 @@ public class GMScript : MonoBehaviour
     private Vector3Int[] EnemyChooseAction(Vector3Int[] piece)
     {
         if (null == piece) return null; 
-        var enemyGoLeft = ShiftPiece(piece, -1, 0, false);
-        var enemyGoRight = ShiftPiece(piece, 1, 0, false);
-        var enemyGoRotate = RotatePiece(piece, false);
-        Vector3Int[][] enemyOptions = {enemyGoLeft, enemyGoRight, enemyGoRotate, piece};
+        var enemyLeft = ShiftPiece(piece, -1, 0, false);
+        var enemyRight = ShiftPiece(piece, 1, 0, false);
+        var enemyRotate = RotatePiece(piece, false);
+        
+        //New options for enemy to make two movements per action
+        var enemyLeft2 =  ShiftPiece(piece, -2, 0, false);
+        var enemyRight2 = ShiftPiece(piece, 2, 0, false);
+        var enemyRotate2 = RotatePiece(RotatePiece(piece, false), false);
+        var enemyLeftRotate = ShiftPiece(RotatePiece(piece, false), -1, 0, false);
+        var enemyRightRotate = ShiftPiece(RotatePiece(piece, false), 1, 0, false); 
+
+        Vector3Int[][] enemyOptions = {enemyLeft, enemyRight, enemyRotate, enemyLeft2,
+            enemyRight2, enemyRotate2, enemyLeftRotate, enemyRightRotate, piece};
+
+
         var validOptions = enemyOptions.Where(p => ValidPiece(p, false)).ToArray();
         if (!validOptions.Any()) return piece;
         var maxScore = validOptions.Max(p => EvaluateEnemyPieceScore(p, _enemyChunk));
