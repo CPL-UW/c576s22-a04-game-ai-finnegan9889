@@ -1,8 +1,3 @@
-# CS576-Tetris-Sample
-
-1. Clone this repo
-2. Open it in a 2021 version of Unity
-3. 2xClick TetrisScene (in Assets/Scenes)
-4. Hit run?
-
-Apologies for the mess. YMMV.
+Gave the AI the ability to make moves 2 turns ahead.
+This includes going left/right twice, rotating twice
+as well as going left or right once and rotating once.
